@@ -9,6 +9,16 @@ import Select from 'react-select'
 
 
 
+const categories = [
+  { value: 'development', label: 'Development' },
+  { value: 'design', label: 'Design' },
+  { value: 'sales', label: 'Sales' },
+  { value: 'marketing', label: 'Marketing' },
+]
+
+
+
+
 function Create() {
   const [name, setName] = useState('')
   const [details, setDetails] = useState('')
@@ -16,9 +26,29 @@ function Create() {
   const [category, setCategory] = useState('')
   const [assignedUsers, setAssignedUsers] = useState([])
   const [formError, setFormError] = useState(null)
+  const {documents,error}=useCollection('users')
+  const [users, setusers] = useState([])
+
+
   const handlesubmit=e=>{
     e.preventDefault()
+    console.log(name,details,dueDate,assignedUsers);
   }
+
+  useEffect(() => {
+    if(documents){
+      const options=documents.map(user=>{
+        return {
+          value:user,
+          label:user.displayName
+        }
+      
+      })
+      setusers(options)
+    }
+
+  }, [documents])
+  
   return (
     <div className="create-form">
 
@@ -39,9 +69,18 @@ function Create() {
       </label>
       <label >
         <span>Project Category :</span>
+        <Select
+        onChange={option=>setCategory(option)}
+        options={categories}
+        />
       </label>
       <label >
         <span>Assign TO:</span>
+        <Select
+        onChange={option=>setAssignedUsers(option)}
+        options={users}
+        isMulti
+        />
        
       </label>
       <button className="btn">Add Project</button>
