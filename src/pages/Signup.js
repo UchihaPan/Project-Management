@@ -33,7 +33,7 @@ const handlefilechange=e=>{
     return
 
   }
-  if(file.size > 1000000){
+  if(file.size > 1000000000000){
     setthumbnailerror('Please select an image file of size less than 100kb')
     console.log('Please select an image file of size less than 100kb')
     return
