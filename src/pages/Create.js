@@ -27,12 +27,52 @@ function Create() {
   const [assignedUsers, setAssignedUsers] = useState([])
   const [formError, setFormError] = useState(null)
   const {documents,error}=useCollection('users')
+  const {addDocument,  response}=useFirestore('projects')
+
+  const {isPending,success}=response
+
   const [users, setusers] = useState([])
+  const {user}=useAuthContext()
+
+  const history=useHistory()
 
 
-  const handlesubmit=e=>{
+  const handlesubmit=async e=>{
     e.preventDefault()
-    console.log(name,details,dueDate,assignedUsers);
+
+    if(!category){
+      setFormError('Select 1 Category')
+      return
+    }
+    if(assignedUsers.length < 1){
+      setFormError('Select atleast 1 user')
+      return
+    }
+
+    const createdBy={
+      id:user.uid,
+      displayName:user.displayName,
+      photoURL:user.photoURL
+    }
+
+    const assignuserlist=assignedUsers.map((user)=>{
+      return {
+        id:user.value.id,
+        displayName:user.value.displayName,
+        photoURL:user.value.photoURL
+        
+      }
+    })
+
+    const project={
+      name,details,comments:[],category:category.value,createdBy:createdBy,dueDate:timestamp.fromDate(new Date()),assignuserlist
+    }
+   await addDocument(project);
+   if(success ===true || response.error===false){
+    history.push('/')
+   }else{
+    setFormError('SSomething wrong happened.Please try again')
+   }
   }
 
   useEffect(() => {
@@ -83,7 +123,10 @@ function Create() {
         />
        
       </label>
-      <button className="btn">Add Project</button>
+      {!isPending &&<button className="btn">Add Project</button>}
+      {isPending &&<button className="btn" disabled>Wait</button>}
+
+      {formError && <p className='error'>{formError}</p>}
       </form>
     </div>
   )
