@@ -20,6 +20,7 @@ function Projectsummary({project}) {
             <p className="due-date">
               Project due by {project.dueDate.toDate().toDateString()}
             </p>
+
             <p className="details">
               {project.details}
             </p>

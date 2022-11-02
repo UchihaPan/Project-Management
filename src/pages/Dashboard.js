@@ -24,7 +24,7 @@ function Dashboard() {
       case 'all':
         return true
         // eslint-disable-next-line
-      case 'mine':
+        case 'mine':
           let assignedToMe = false
           document.assignuserlist.forEach(u => {
             if(u.id === user.uid) {
