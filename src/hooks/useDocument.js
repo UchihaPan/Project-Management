@@ -12,8 +12,18 @@ export const useDocument = (collection, id) => {
         const ref=projectfirestore.collection(collection).doc(id)
         const unsubscribe=ref.onSnapshot(snapshot=>{
 
-            setdocument({...snapshot.data(),id:snapshot.id})
-            seterror(null)
+            if(snapshot.data()){
+                setdocument({...snapshot.data(),id:snapshot.id})
+                seterror(null)
+
+            }else{
+                seterror('No document exist')
+
+            }
+
+           
+
+
 
         },(error)=>{
             console.log(error.message)

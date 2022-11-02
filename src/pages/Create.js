@@ -26,11 +26,11 @@ function Create() {
   const [category, setCategory] = useState('')
   const [assignedUsers, setAssignedUsers] = useState([])
   const [formError, setFormError] = useState(null)
-  const {documents,error}=useCollection('users')
+  const {documents}=useCollection('users')
   const {addDocument,  response}=useFirestore('projects')
 
-  const {isPending,success}=response
 
+//This is to create array of all users
   const [users, setusers] = useState([])
   const {user}=useAuthContext()
 
@@ -68,9 +68,10 @@ function Create() {
       name,details,comments:[],category:category.value,createdBy:createdBy,dueDate:timestamp.fromDate(new Date()),assignuserlist
     }
    await addDocument(project);
-   if(success ===true || response.error===false){
+   if(   response.error===null ||  response.success===false  ){
     history.push('/')
    }else{
+    console.log('error',response.error);
     setFormError('SSomething wrong happened.Please try again')
    }
   }
@@ -123,8 +124,8 @@ function Create() {
         />
        
       </label>
-      {!isPending &&<button className="btn">Add Project</button>}
-      {isPending &&<button className="btn" disabled>Wait</button>}
+      {!response.isPending &&<button className="btn">Add Project</button>}
+      {response.isPending &&<button className="btn" disabled>Wait</button>}
 
       {formError && <p className='error'>{formError}</p>}
       </form>

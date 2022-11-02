@@ -41,7 +41,7 @@ function App() {
 
         <Create/>
       </Route>
-      <Route path='/project/:id'>
+      <Route path='/projects/:id'>
       {!user && <Redirect to='login' />}
 
         <Project/>
