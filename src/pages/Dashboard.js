@@ -24,7 +24,7 @@ function Dashboard() {
       case 'all':
         return true
         // eslint-disable-next-line
-        case 'mine':
+      case 'mine':
           let assignedToMe = false
           document.assignuserlist.forEach(u => {
             if(u.id === user.uid) {
@@ -33,18 +33,18 @@ function Dashboard() {
           })
           return assignedToMe
 // eslint-disable-next-line
-        case 'development':
+      case 'development':
           // eslint-disable-next-line
-          case 'design':
+      case 'design':
                       // eslint-disable-next-line
-            case 'marketing':
+      case 'marketing':
 // eslint-disable-next-line
-              case 'sales':
+      case 'sales':
 
             return  document.category===currentFilter
             // eslint-disable-next-line
 
-              default:
+      default:
                 return true
 
 
